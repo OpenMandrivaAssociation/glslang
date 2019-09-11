@@ -1,0 +1,78 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8c54f21..ec562e4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -57,6 +57,8 @@ macro(glslang_pch SRCS PCHCPP)
+ endmacro(glslang_pch)
+ 
+ project(glslang)
++set(GLSLANG_VERSION "0.0.0" CACHE STRING "Build version")
++set(GLSLANG_SOVERSION "0" CACHE STRING "Library API version")
+ 
+ # using pkg-config to configure include paths and link libraries
+ include(FindPkgConfig)
+diff --git a/SPIRV/CMakeLists.txt b/SPIRV/CMakeLists.txt
+index 83bdffd..31fcf22 100644
+--- a/SPIRV/CMakeLists.txt
++++ b/SPIRV/CMakeLists.txt
+@@ -44,6 +44,9 @@ if(ENABLE_NV_EXTENSIONS)
+ endif(ENABLE_NV_EXTENSIONS)
+ 
+ add_library(SPIRV ${LIB_TYPE} ${SOURCES} ${HEADERS})
++set_target_properties(SPIRV PROPERTIES
++  VERSION ${GLSLANG_VERSION}
++  SOVERSION ${GLSLANG_SOVERSION})
+ set_property(TARGET SPIRV PROPERTY FOLDER glslang)
+ set_property(TARGET SPIRV PROPERTY POSITION_INDEPENDENT_CODE ON)
+ target_include_directories(SPIRV PUBLIC ..)
+@@ -54,6 +57,9 @@ set(SPIRV_VERSION 1.3)
+ 
+ if (ENABLE_SPVREMAPPER)
+     add_library(SPVRemapper ${LIB_TYPE} ${SPVREMAP_SOURCES} ${SPVREMAP_HEADERS})
++    set_target_properties(SPVRemapper PROPERTIES
++      VERSION ${GLSLANG_VERSION}
++      SOVERSION ${GLSLANG_SOVERSION})
+     set_property(TARGET SPVRemapper PROPERTY FOLDER glslang)
+     set_property(TARGET SPVRemapper PROPERTY POSITION_INDEPENDENT_CODE ON)
+ endif()
+diff --git a/StandAlone/CMakeLists.txt b/StandAlone/CMakeLists.txt
+index f18e24d..f3379cd 100644
+--- a/StandAlone/CMakeLists.txt
++++ b/StandAlone/CMakeLists.txt
+@@ -1,5 +1,8 @@
+ add_library(glslang-default-resource-limits STATIC
+             ${CMAKE_CURRENT_SOURCE_DIR}/ResourceLimits.cpp)
++set_target_properties(glslang-default-resource-limits PROPERTIES
++  VERSION ${GLSLANG_VERSION}
++  SOVERSION ${GLSLANG_SOVERSION})
+ set_property(TARGET glslang-default-resource-limits PROPERTY FOLDER glslang)
+ set_property(TARGET glslang-default-resource-limits PROPERTY POSITION_INDEPENDENT_CODE ON)
+ 
+diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
+index c946d56..e27fc1e 100644
+--- a/glslang/CMakeLists.txt
++++ b/glslang/CMakeLists.txt
+@@ -84,6 +84,9 @@ set(VERSION 7.11.3113)
+ glslang_pch(SOURCES MachineIndependent/pch.cpp)
+ 
+ add_library(glslang ${LIB_TYPE} ${BISON_GLSLParser_OUTPUT_SOURCE} ${SOURCES} ${HEADERS})
++set_target_properties(glslang PROPERTIES
++  VERSION ${GLSLANG_VERSION}
++  SOVERSION ${GLSLANG_SOVERSION})
+ set_property(TARGET glslang PROPERTY FOLDER glslang)
+ set_property(TARGET glslang PROPERTY POSITION_INDEPENDENT_CODE ON)
+ target_link_libraries(glslang OGLCompiler OSDependent)
+diff --git a/hlsl/CMakeLists.txt b/hlsl/CMakeLists.txt
+index 7436dde..471dddb 100644
+--- a/hlsl/CMakeLists.txt
++++ b/hlsl/CMakeLists.txt
+@@ -20,6 +20,9 @@ set(HEADERS
+ glslang_pch(SOURCES pch.cpp)
+ 
+ add_library(HLSL ${LIB_TYPE} ${SOURCES} ${HEADERS})
++set_target_properties(HLSL PROPERTIES
++  VERSION ${GLSLANG_VERSION}
++  SOVERSION ${GLSLANG_SOVERSION})
+ set_property(TARGET HLSL PROPERTY FOLDER hlsl)
+ set_property(TARGET HLSL PROPERTY POSITION_INDEPENDENT_CODE ON)
+ 
