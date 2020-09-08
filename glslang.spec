@@ -8,9 +8,9 @@
 
 # Comment out when using stable release.
 # Upstream tracks git commits in their known_good.json, so we are forced to do the same.
-%global commit 3cea2e5882e3455731a8b6657fb06db913eb3aa1
+%global commit bcf6a2430e99e8fc24f9f266e99316905e6d5134
 %global shortcommit %%(c=%%{commit}; echo ${c:0:7})
-%global commit_date 20190803
+%global commit_date 20200427
 %global gitrel .%%{commit_date}.git%%{shortcommit}
 
 # Cyclic dependencies between HLSL and glslang, we can't build with --no-undefined
@@ -18,7 +18,7 @@
 %define _disable_ld_no_undefined 1
 
 Name:           glslang
-Version:        7.11.3214
+Version:        8.13.3743
 Release:        1%{?gitrel}
 Summary:        Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:          System/Libraries
@@ -104,3 +104,4 @@ popd
 %{_libdir}/libSPVRemapper.so
 %{_libdir}/pkgconfig/glslang.pc
 %{_libdir}/pkgconfig/spirv.pc
+%{_libdir}/cmake/*.cmake
