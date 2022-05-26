@@ -18,13 +18,16 @@ Group:		System/Libraries
 License:	BSD and GPLv3+ and ASL 2.0
 URL:		https://github.com/KhronosGroup
 Source0:	%url/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
-Patch1:		glslang-default-resource-limits_staticlib.patch
-Patch2:		glslang_tests.patch
-# Patch to build against system spirv-tools
-Patch3:		0001-pkg-config-compatibility.patch
-Patch4:		glslang-soversions-for-all-libraries.patch
-
+# https://github.com/KhronosGroup/glslang/pull/1621
+Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
+# https://github.com/KhronosGroup/glslang/pull/2419
+Patch2:		0001-CMake-Make-glslang-default-resource-limits-STATIC.patch
+Patch3:		0002-CMake-Use-VERSION-SOVERSION-for-all-shared-libs.patch
+# https://github.com/KhronosGroup/glslang/pull/1978
+Patch4:		0001-glslang-Rename-and-move-cmake-export.patch
+Patch5:		0002-cmake-Use-the-same-export-config-for-all-installed-t.patch
 BuildRequires:	cmake
+BuildRequires:	ninja
 BuildRequires:	pkgconfig(SPIRV-Tools)
 
 %description
@@ -33,16 +36,16 @@ ES and OpenGL shading languages. It implements a strict
 interpretation of the specifications for these languages.
 
 %package -n %{libname}
-Summary:	Library files for glslang
+Summary:	Library files for %{name}
 Group:		System/Libraries
 
 %description -n %{libname}
-Library files for glslang.
+Library files for %{name}.
 
 %package -n %{devname}
-Summary:	Development files for glslang
-Requires:	%{libname} = %{version}-%{release}
-Provides:	%{name}-devel = %{version}-%{release}
+Summary:	Development files for %{name}
+Requires:	%{libname} = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
 
 %description -n %{devname}
 %{name} is the official reference compiler front end for the OpenGL
@@ -51,18 +54,20 @@ interpretation of the specifications for these languages.
 
 %prep
 %autosetup -p1
+
 # Fix rpmlint warning on debuginfo
 find . -name '*.h' -or -name '*.cpp' -or -name '*.hpp'| xargs chmod a-x
 
 %build
 %cmake \
   -DGLSLANG_SOVERSION=%{major} \
-  -DGLSLANG_VERSION=%{version}
+  -DGLSLANG_VERSION=%{version} \
+  -G Ninja
 
-%make_build
+%ninja_build
 
 %install
-%make_install -C build
+%ninja_install -C build
 
 # For compatibility with old versions
 ln -s %{name}/SPIRV %{buildroot}%{_includedir}/
@@ -71,9 +76,9 @@ ln -s %{name}/SPIRV %{buildroot}%{_includedir}/
 rm -f %{buildroot}%{_libdir}/*.a
 
 %check
-pushd Test
-LD_LIBRARY_PATH+=%{buildroot}%{_libdir} ./runtests
-popd
+cd Test
+LD_LIBRARY_PATH+=%{buildroot}%{_libdir} ./runtests localResults %{buildroot}%{_bindir}/glslangValidator %{buildroot}%{_bindir}/spirv-remap
+cd -
 
 %files
 %doc README.md README-spirv-remap.txt
@@ -93,6 +98,5 @@ popd
 %{_libdir}/libHLSL.so
 %{_libdir}/libSPIRV.so
 %{_libdir}/libSPVRemapper.so
-%{_libdir}/pkgconfig/glslang.pc
-%{_libdir}/pkgconfig/spirv.pc
-%{_libdir}/cmake/*.cmake
+%dir %{_libdir}/cmake/glslang
+%{_libdir}/cmake/glslang/*.cmake
