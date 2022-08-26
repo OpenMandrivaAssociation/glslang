@@ -3,7 +3,7 @@
 # devel() provides that RPM relies on to pull in the proper deps
 # in reverse dependencies.
 %define major 11
-%define libname %mklibname %{name} %{major}
+%define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
 # Cyclic dependencies between HLSL and glslang, we can't build with --no-undefined
@@ -11,7 +11,7 @@
 %define _disable_ld_no_undefined 1
 
 Name:		glslang
-Version:	11.8.0
+Version:	11.11.0
 Release:	1
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
@@ -24,8 +24,8 @@ Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
 Patch2:		0001-CMake-Make-glslang-default-resource-limits-STATIC.patch
 Patch3:		0002-CMake-Use-VERSION-SOVERSION-for-all-shared-libs.patch
 # https://github.com/KhronosGroup/glslang/pull/1978
-Patch4:		0001-glslang-Rename-and-move-cmake-export.patch
-Patch5:		0002-cmake-Use-the-same-export-config-for-all-installed-t.patch
+# (completely rewritten to rebase to 11.11.0)
+Patch4:		glslang-11.11.0-cmake-install-path.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(SPIRV-Tools)
@@ -38,6 +38,7 @@ interpretation of the specifications for these languages.
 %package -n %{libname}
 Summary:	Library files for %{name}
 Group:		System/Libraries
+%rename %mklibname glslang 11
 
 %description -n %{libname}
 Library files for %{name}.
@@ -98,5 +99,4 @@ cd -
 %{_libdir}/libHLSL.so
 %{_libdir}/libSPIRV.so
 %{_libdir}/libSPVRemapper.so
-%dir %{_libdir}/cmake/glslang
-%{_libdir}/cmake/glslang/*.cmake
+%{_libdir}/cmake/glslang
