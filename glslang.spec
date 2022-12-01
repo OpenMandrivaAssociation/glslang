@@ -10,8 +10,11 @@
 # for the time being: https://github.com/KhronosGroup/glslang/issues/1484
 %define _disable_ld_no_undefined 1
 
+# (tpg) reduce the debug
+%global optflags %{optflags} -g1
+
 Name:		glslang
-Version:	11.11.0
+Version:	11.12.0
 Release:	1
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
@@ -23,9 +26,6 @@ Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
 # https://github.com/KhronosGroup/glslang/pull/2419
 Patch2:		0001-CMake-Make-glslang-default-resource-limits-STATIC.patch
 Patch3:		0002-CMake-Use-VERSION-SOVERSION-for-all-shared-libs.patch
-# https://github.com/KhronosGroup/glslang/pull/1978
-# (completely rewritten to rebase to 11.11.0)
-Patch4:		glslang-11.11.0-cmake-install-path.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(SPIRV-Tools)
@@ -100,3 +100,4 @@ cd -
 %{_libdir}/libSPIRV.so
 %{_libdir}/libSPVRemapper.so
 %{_libdir}/cmake/glslang
+%{_libdir}/cmake/*.cmake
