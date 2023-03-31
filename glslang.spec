@@ -15,7 +15,7 @@
 
 Name:		glslang
 Version:	11.13.0
-Release:	1
+Release:	2
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
 License:	BSD and GPLv3+ and ASL 2.0
