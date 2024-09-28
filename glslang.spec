@@ -14,18 +14,18 @@
 %global optflags %{optflags} -g1
 
 Name:		glslang
-Version:	11.13.0
-Release:	2
+Version:	15.0.0
+Release:	1
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
 License:	BSD and GPLv3+ and ASL 2.0
 URL:		https://github.com/KhronosGroup
 Source0:	%url/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 # https://github.com/KhronosGroup/glslang/pull/1621
-Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
+#Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
 # https://github.com/KhronosGroup/glslang/pull/2419
-Patch2:		0001-CMake-Make-glslang-default-resource-limits-STATIC.patch
-Patch3:		0002-CMake-Use-VERSION-SOVERSION-for-all-shared-libs.patch
+#Patch2:		0001-CMake-Make-glslang-default-resource-limits-STATIC.patch
+#Patch3:		0002-CMake-Use-VERSION-SOVERSION-for-all-shared-libs.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(SPIRV-Tools)
