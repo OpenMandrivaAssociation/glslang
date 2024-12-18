@@ -63,6 +63,7 @@ find . -name '*.h' -or -name '*.cpp' -or -name '*.hpp'| xargs chmod a-x
 %cmake \
   -DGLSLANG_SOVERSION=%{major} \
   -DGLSLANG_VERSION=%{version} \
+  -DALLOW_EXTERNAL_SPIRV_TOOLS:BOOL=ON \
   -G Ninja
 
 %ninja_build
