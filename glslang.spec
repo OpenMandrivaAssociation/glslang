@@ -84,6 +84,7 @@ cd -
 
 %files
 %doc README.md README-spirv-remap.txt
+%{_bindir}/glslang
 %{_bindir}/glslangValidator
 %{_bindir}/spirv-remap
 
