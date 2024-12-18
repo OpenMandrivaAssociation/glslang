@@ -96,8 +96,7 @@ cd -
 %{_includedir}/SPIRV
 %{_includedir}/%{name}/
 %{_libdir}/lib%{name}*.so
-%{_libdir}/libHLSL.so
 %{_libdir}/libSPIRV.so
 %{_libdir}/libSPVRemapper.so
 %{_libdir}/cmake/glslang
-%{_libdir}/cmake/*.cmake
+#{_libdir}/cmake/*.cmake
