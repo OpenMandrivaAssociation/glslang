@@ -2,7 +2,7 @@
 # Without proper soname, the devel package would not generate the
 # devel() provides that RPM relies on to pull in the proper deps
 # in reverse dependencies.
-%define major 11
+%define major 15
 %define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
@@ -14,18 +14,18 @@
 %global optflags %{optflags} -g1
 
 Name:		glslang
-Version:	11.13.0
-Release:	2
+Version:	15.1.0
+Release:	1
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
 License:	BSD and GPLv3+ and ASL 2.0
 URL:		https://github.com/KhronosGroup
 Source0:	%url/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 # https://github.com/KhronosGroup/glslang/pull/1621
-Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
+#Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
 # https://github.com/KhronosGroup/glslang/pull/2419
-Patch2:		0001-CMake-Make-glslang-default-resource-limits-STATIC.patch
-Patch3:		0002-CMake-Use-VERSION-SOVERSION-for-all-shared-libs.patch
+#Patch2:		0001-CMake-Make-glslang-default-resource-limits-STATIC.patch
+#Patch3:		0002-CMake-Use-VERSION-SOVERSION-for-all-shared-libs.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(SPIRV-Tools)
@@ -63,6 +63,7 @@ find . -name '*.h' -or -name '*.cpp' -or -name '*.hpp'| xargs chmod a-x
 %cmake \
   -DGLSLANG_SOVERSION=%{major} \
   -DGLSLANG_VERSION=%{version} \
+  -DALLOW_EXTERNAL_SPIRV_TOOLS:BOOL=ON \
   -G Ninja
 
 %ninja_build
@@ -83,12 +84,12 @@ cd -
 
 %files
 %doc README.md README-spirv-remap.txt
+%{_bindir}/glslang
 %{_bindir}/glslangValidator
 %{_bindir}/spirv-remap
 
 %files -n %{libname}
 %{_libdir}/lib%{name}*.so.%{major}*
-%{_libdir}/libHLSL.so.%{major}*
 %{_libdir}/libSPIRV.so.%{major}*
 %{_libdir}/libSPVRemapper.so.%{major}*
 
@@ -96,8 +97,7 @@ cd -
 %{_includedir}/SPIRV
 %{_includedir}/%{name}/
 %{_libdir}/lib%{name}*.so
-%{_libdir}/libHLSL.so
 %{_libdir}/libSPIRV.so
 %{_libdir}/libSPVRemapper.so
 %{_libdir}/cmake/glslang
-%{_libdir}/cmake/*.cmake
+#{_libdir}/cmake/*.cmake
