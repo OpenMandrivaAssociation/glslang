@@ -2,7 +2,7 @@
 # Without proper soname, the devel package would not generate the
 # devel() provides that RPM relies on to pull in the proper deps
 # in reverse dependencies.
-%define major 11
+%define major 15
 %define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
