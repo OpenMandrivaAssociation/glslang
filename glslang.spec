@@ -89,7 +89,6 @@ cd -
 
 %files -n %{libname}
 %{_libdir}/lib%{name}*.so.%{major}*
-%{_libdir}/libHLSL.so.%{major}*
 %{_libdir}/libSPIRV.so.%{major}*
 %{_libdir}/libSPVRemapper.so.%{major}*
 
