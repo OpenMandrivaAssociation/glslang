@@ -83,10 +83,9 @@ LD_LIBRARY_PATH+=%{buildroot}%{_libdir} ./runtests localResults %{buildroot}%{_b
 cd -
 
 %files
-%doc README.md README-spirv-remap.txt
+%doc README.md
 %{_bindir}/glslang
 %{_bindir}/glslangValidator
-%{_bindir}/spirv-remap
 
 %files -n %{libname}
 %{_libdir}/lib%{name}*.so.%{major}*
