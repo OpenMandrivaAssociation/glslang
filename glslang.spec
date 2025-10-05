@@ -90,13 +90,11 @@ cd -
 %files -n %{libname}
 %{_libdir}/lib%{name}*.so.%{major}*
 %{_libdir}/libSPIRV.so.%{major}*
-%{_libdir}/libSPVRemapper.so.%{major}*
 
 %files -n %{devname}
 %{_includedir}/SPIRV
 %{_includedir}/%{name}/
 %{_libdir}/lib%{name}*.so
 %{_libdir}/libSPIRV.so
-%{_libdir}/libSPVRemapper.so
 %{_libdir}/cmake/glslang
 #{_libdir}/cmake/*.cmake
