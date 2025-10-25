@@ -2,7 +2,7 @@
 # Without proper soname, the devel package would not generate the
 # devel() provides that RPM relies on to pull in the proper deps
 # in reverse dependencies.
-%define major 15
+%define major 16
 %define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
@@ -14,7 +14,7 @@
 %global optflags %{optflags} -g1
 
 Name:		glslang
-Version:	15.1.0
+Version:	16.0.0
 Release:	1
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
@@ -83,21 +83,18 @@ LD_LIBRARY_PATH+=%{buildroot}%{_libdir} ./runtests localResults %{buildroot}%{_b
 cd -
 
 %files
-%doc README.md README-spirv-remap.txt
+%doc README.md
 %{_bindir}/glslang
 %{_bindir}/glslangValidator
-%{_bindir}/spirv-remap
 
 %files -n %{libname}
 %{_libdir}/lib%{name}*.so.%{major}*
 %{_libdir}/libSPIRV.so.%{major}*
-%{_libdir}/libSPVRemapper.so.%{major}*
 
 %files -n %{devname}
 %{_includedir}/SPIRV
 %{_includedir}/%{name}/
 %{_libdir}/lib%{name}*.so
 %{_libdir}/libSPIRV.so
-%{_libdir}/libSPVRemapper.so
 %{_libdir}/cmake/glslang
 #{_libdir}/cmake/*.cmake
