@@ -14,7 +14,7 @@
 %global optflags %{optflags} -g1
 
 Name:		glslang
-Version:	16.1.0
+Version:	16.2.0
 Release:	1
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
