@@ -15,12 +15,12 @@
 
 Name:		glslang
 Version:	16.2.0
-Release:	1
+Release:	2
 Summary:	Khronos reference front-end for GLSL and ESSL, and sample SPIR-V generator
 Group:		System/Libraries
 License:	BSD and GPLv3+ and ASL 2.0
-URL:		https://github.com/KhronosGroup
-Source0:	%url/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+URL:		https://github.com/KhronosGroup/glslang
+Source0:	%url/archive/%{version}/%{name}-%{version}.tar.gz
 # https://github.com/KhronosGroup/glslang/pull/1621
 #Patch1:		0001-CMake-Allow-linking-against-system-installed-SPIRV-T.patch
 # https://github.com/KhronosGroup/glslang/pull/2419
